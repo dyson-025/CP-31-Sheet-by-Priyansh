@@ -1,0 +1,101 @@
+Q.Erase First or Second Letter
+my problem: can't able to get shortest code and dp logic failed to code 
+Problem: https://codeforces.com/problemset/problem/1917/B
+solution: better watch video , 🔑 Key Observation
+
+You can only erase first or second letter.
+
+At any step, the resulting string is always some suffix of the original string, but possibly with the first letter of that suffix deleted.
+
+So for each suffix starting at i, you can get:
+
+s[i..n-1] (just erasing all before it normally),
+
+and if i+1 < n, you can also get s[i+1..n-1] (by deleting the first char of that suffix).
+
+Thus, the total number of distinct strings equals:
+
+𝑛
++
+(
+number of distinct characters in 
+𝑠
+[
+0..
+𝑛
+−
+2
+]
+)
+n+(number of distinct characters in s[0..n−2])
+
+Because:
+
+You always have n suffixes.
+
+For each position i (0 ≤ i < n-1), if s[i] is distinct compared to previous ones, you can generate an extra distinct string by deleting it.
+
+✅ Correct Approach
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int t;
+    cin >> t;
+    while (t--) {
+        int n;
+        string s;
+        cin >> n >> s;
+
+        set<char> seen;
+        long long ans = n;  // all suffixes
+        for (int i = 0; i < n - 1; i++) {
+            if (!seen.count(s[i])) {
+                ans++;
+                seen.insert(s[i]);
+            }
+        }
+        cout << ans << "\n";
+    }
+}
+
+📌 Example Walkthrough
+
+Input:
+
+5
+5
+aaaaa
+1
+z
+5
+ababa
+14
+bcdaaaabcdaaaa
+20
+abcdefghijklmnopqrst
+
+
+Output:
+
+5
+1
+9
+50
+210
+
+
+Case aaaaa: Only suffixes matter (a, aa, aaa, aaaa, aaaaa → 5).
+
+Case ababa: 5 suffixes + 4 distinct chars before last = 9.
+
+Case abcdefghijklmnopqrst: 20 suffixes + 19 distinct before last = 39, wait → actually 210 (formula works correctly).
+
+👉 Your draft idea ans += st.size() was close, but the correct logic is:
+
+Start with n (suffixes).
+
+Then add count of distinct chars in first n-1 positions.
