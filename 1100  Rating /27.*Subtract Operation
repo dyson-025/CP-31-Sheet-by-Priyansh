@@ -1,0 +1,61 @@
+Revision Card – Subtract Operation
+video solution: https://www.youtube.com/watch?v=Ga6LyaJPsw4
+🎯 Key Condition
+
+After all operations, result = ai - aj.
+
+Need:
+
+ai - aj = k
+→ ai = aj + k
+
+
+Task: Check if for any x in array, x + k exists.
+
+⚡ Solution 1: HashSet (O(n))
+
+Insert all elements into a hash set.
+
+For each element x, check if (x + k) exists.
+
+If found → YES, else NO.
+
+unordered_set<int> st(a.begin(), a.end());
+for(int x : a){
+    if(st.count(x + k)){ cout << "YES\n"; return; }
+}
+cout << "NO\n";
+
+
+✅ Fastest (O(n))
+
+❌ Extra space (O(n))
+
+⚡ Solution 2: Binary Search (O(n log n))
+
+Sort the array.
+
+For each element x, binary search for (x + k).
+
+If found → YES, else NO.
+
+sort(a.begin(), a.end());
+for(int x : a){
+    if(binary_search(a.begin(), a.end(), x + k)){
+        cout << "YES\n"; return;
+    }
+}
+cout << "NO\n";
+
+
+✅ No extra space
+
+❌ Slower (O(n log n))
+
+📌 Quick Recall
+
+Condition: ai - aj = k
+
+HashSet → O(n), fast & easy → use in contest.
+
+Binary Search → O(n log n), space-friendly → good for interviews.
